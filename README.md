@@ -1,221 +1,112 @@
 # 3DViewer v1.0
 
-> При старте работы над проектом просим тебя постараться хронометрировать время работы над проектом.
-> По завершении работы над проектом, пожалуйста, ответь на два вопроса [в этом опросе](https://forms.gle/51aADrXJGHYH9jEi6)
-
-Implementation of 3DViewer v1.0.
-
-The russian version of the task can be found in the repository.
-
-
-## Contents
-
-0. [Preamble](#preamble)
-1. [Chapter I](#chapter-i) \
-   1.1. [Introduction](#introduction)
-2. [Chapter II](#chapter-ii) \
-   2.1. [Information](#information)
-3. [Chapter III](#chapter-iii) \
-   3.1. [Part 1](#part-1-3dviewer) \
-   3.2. [Part 2](#part-2-bonus-settings) \
-   3.3. [Part 3](#part-3-bonus-record)
 
 
 ## Preamble
 
 ![3DViewer](misc/images/3dviewer.png)
 
-Somewhere around the water cooler in the '90s:
+# Документация по коду и приложению 3D Viewer
 
-*-- We can't make a cartoon about animals.*
+## Описание
 
-*- Why the hell not? John, your 'Tin Toy' has made a big splash! Imagine what will happen when the world sees something like '101 Dalmatians' in 3D!*
+3D Viewer - это приложение, предназначенное для загрузки, визуализации и манипулирования 3D моделями в формате OBJ. Оно позволяет пользователям изменять параметры модели, такие как позиция, вращение, масштаб, а также визуальные параметры, включая цвет ребер, вершин и фон. Приложение также поддерживает съемку скриншотов и создание GIF-анимаций.
 
-*-- Well, that's the problem. There is not yet enough computing power to animate complex objects. The animals would have to wait because you can't simulate their fur. Either it will be a cartoon about bald animals. We have to wait a few years for Moore's Law to kick in.*
+## Основные классы и их функции
 
-*- Well, okay, what about humans? Why can't we do a cartoon about people?*
+### MainWindow
 
-*-- We can, except it would be a horror film, because their faces would look like yours right now, trying to convince me to make a fatal mistake.*
+Класс `MainWindow` отвечает за основное окно приложения и взаимодействие с пользователем.
 
-You realised that Lasseter's arguments were too convincing and that there was no point in arguing.
+#### Основные функции:
 
-*- Fine, let's say you're right. But what cartoon should we make?*
+- **MainWindow::MainWindow** - конструктор, устанавливающий пользовательский интерфейс и настраивающий начальные параметры.
+- **MainWindow::connect_signals_to_slots** - подключение сигналов к слотам для обработки событий.
+- **MainWindow::on_GetGif_clicked** - обработка события нажатия на кнопку создания GIF.
+- **MainWindow::create_gif** - создание GIF-анимации из текущего отображения модели.
+- **MainWindow::on_GetScreenshot_clicked** - обработка события нажатия на кнопку создания скриншота.
+- **MainWindow::on_SelectFile_clicked** - обработка события выбора файла модели для загрузки.
+- **MainWindow::update_viewer_translation** - обновление положения модели в пространстве.
+- **MainWindow::update_viewer_rotation** - обновление угла поворота модели.
+- **MainWindow::update_viewer_projection** - переключение между ортографической и перспективной проекциями.
+- **MainWindow::change_edge_color** - изменение цвета ребер.
+- **MainWindow::change_vertex_color** - изменение цвета вершин.
+- **MainWindow::change_edge_thickness** - изменение толщины ребер.
+- **MainWindow::change_edge_dashed** - изменение стиля ребер (сплошные/пунктирные).
+- **MainWindow::change_vertex_size** - изменение размера вершин.
+- **MainWindow::change_vertex_shape** - изменение формы вершин.
+- **MainWindow::save_settings** - сохранение настроек приложения.
+- **MainWindow::load_settings** - загрузка настроек приложения.
 
-*-- That's easy, my friend. It will be a cartoon about toys, like the one that won us the Oscar. The natural shape of the toys will lend itself perfectly to the low-poly 3D models we'll be able to animate. And they're toys, so bad facial expressions won't be a problem. And I've already got a plot in mind. Let's bring it to life! The story will be based on the relationship between the toys and the child.*
+### OpenGLViewer
 
-*- Sounds interesting!*
+Класс `OpenGLViewer` отвечает за отрисовку 3D модели с использованием OpenGL.
 
-*-- It is. You should go to your team and start developing 3D modelling software as soon as possible. If we want to make this cartoon, we need our own software tools. The ones on the market will only allow us to animate a wooden pyramid, and then only in the form of a cube.*
+#### Основные функции:
 
-*- Okay, but first, we need to do the most important thing - the preview screen.*
+- **OpenGLViewer::initializeGL** - инициализация OpenGL контекста.
+- **OpenGLViewer::resizeGL** - обработка изменения размеров окна.
+- **OpenGLViewer::paintGL** - отрисовка текущего состояния модели.
+- **OpenGLViewer::mousePressEvent** - обработка нажатия мыши для поворота модели.
+- **OpenGLViewer::mouseMoveEvent** - обработка перемещения мыши для поворота модели.
+- **OpenGLViewer::keyPressEvent** - обработка нажатий клавиш для перемещения камеры.
+- **OpenGLViewer::set_file_path** - установка пути к файлу модели и ее загрузка.
+- **OpenGLViewer::reset_rotation** - сброс углов поворота модели.
+- **OpenGLViewer::reload_model** - перезагрузка модели из файла.
+- **OpenGLViewer::clear** - очистка загруженной модели из памяти.
+- **OpenGLViewer::create_model** - создание модели из загруженных данных.
+- **OpenGLViewer::create_default_cube** - создание модели куба по умолчанию.
+- **OpenGLViewer::set_translation** - установка трансляции модели.
+- **OpenGLViewer::draw_grid** - отрисовка сетки на фоне.
+- **OpenGLViewer::reset_sliders** - сброс значений слайдеров для трансляции и вращения.
 
-*-- Good luck!*
+## Пользовательский интерфейс
 
-Pixar had over 100 computers to render the 3D scenes. Recognising the potential of such power, you gave an inspirational speech to your team praising 3D visualisation technology and then got straight to work! This cartoon will go down in history...
+### Основные элементы:
 
+- **QPushButton** - кнопки для выполнения различных действий (создание GIF, скриншота, выбор файла и т.д.).
+- **QSlider** - слайдеры для изменения параметров модели (позиция, вращение, масштаб).
+- **QComboBox** - выпадающие списки для выбора формы вершин.
+- **QCheckBox** - чекбоксы для включения/отключения пунктирных ребер.
+- **QColorDialog** - диалог выбора цвета для изменения цвета ребер, вершин и фона.
 
-## Chapter I
+## Использование
 
-## Introduction
+1. **Загрузка модели**: Нажмите кнопку "Выбрать файл" и выберите файл формата OBJ.
+2. **Изменение параметров модели**: Используйте слайдеры для изменения позиции, вращения и масштаба модели.
+3. **Изменение визуальных параметров**: Измените цвет ребер, вершин и фона с помощью соответствующих кнопок.
+4. **Переключение проекций**: Используйте кнопки для переключения между ортографической и перспективной проекцией.
+5. **Создание скриншота**: Нажмите кнопку "Скриншот" и сохраните изображение.
+6. **Создание GIF**: Нажмите кнопку "GIF" и сохраните анимацию.
 
-In this project you will implement a program for viewing 3D wireframe models (3D Viewer) in the C programming language. The models themselves must be loaded from .obj files and be viewable on screen with the ability to rotate, scale and translate
+## Настройки
 
+Приложение автоматически сохраняет настройки пользователя при выходе и загружает их при запуске. Настройки включают цветовые параметры, толщину ребер, размер вершин и тип проекции.
 
-## Chapter II
+### Сохранение и загрузка настроек:
 
-## Information
+- **MainWindow::save_settings** - сохранение текущих настроек в файл.
+- **MainWindow::load_settings** - загрузка настроек из файла при запуске.
 
-A wireframe model is a model of an object in 3D graphics, which is a set of vertices and edges that defines the shape of the displayed polyhedral object in three-dimensional space.
+## Обработка ошибок
 
-### Structured programming reminder
+- **MainWindow::show_error** - отображение сообщения об ошибке.
+- **MainWindow::show_info** - отображение информационного сообщения.
 
-Structured programming based on two main principles:
-- The principle of divide and conquer (decomposition) - the principle of solving complex problems by decomposing them into many smaller subproblems, that are easier to understand and solve. Besides, there is no code duplication when solving subproblems and the solutions themselves are reused if necessary;
-- The principle of hierarchical ordering - the principle of organising the components of a problem into hierarchical tree structures with new details added at each level (from the top level with a single entry point, to the lower levels with specific data structures and implementations). That is, there should be no calculations and no input/output operations on the same level.
+### Примеры сообщений об ошибках:
 
-Thus, using a structured style results in the program being built like a puff pastry pie from top to bottom. Errors are generated at the lower levels and thrown up to the top, where they are displayed to the user.
+- "Error initializing sliders" - ошибка инициализации слайдеров.
+- "Error: OpenGLViewer not found" - ошибка поиска виджета OpenGLViewer.
+- "No file selected" - файл не был выбран.
+- "Error: Selected file does not exist or is not a valid file" - выбранный файл не существует или недействителен.
+- "Error setting file path" - ошибка установки пути к файлу.
 
-### .Obj file format for representing the definition of 3D objects
+### Примеры информационных сообщений:
 
-.Obj file is a geometry definition file format first developed by Wavefront Technologies. The file format is open and accepted by many 3D graphics application vendors.
+- "GIF saved successfully" - GIF успешно сохранен.
+- "Settings saved" - настройки сохранены.
+- "Model loaded successfully" - модель успешно загружена.
 
-The .obj file format is a simple data format that represents only three-dimensional geometry, specifically the position of each vertex, the UV of each texture coordinate vertex, vertex normals and the faces that define each polygon as a list of vertices and texture vertices. Obj coordinates have no units, but Obj files can contain scale information in a readable comment line.
+## Заключение
 
-The example of .obj file format:
-```
-  # List of geometric vertices, with (x, y, z [,w]) coordinates, w is optional and defaults to 1.0.
-  v 0.123 0.234 0.345 1.0
-  v ...
-  ...
-  # Texture coordinates (u, [,v ,w]), w is optional and default to 0.
-  vt 0.500 -1.352 [0.234]
-  vt ...
-  ...
-  # Normals (x,y,z)
-  vn 0.707 0.000 0.707
-  vn ...
-  ...
-  # Parameter space vertices (u [,v] [,w])
-  vn 0.707 0.000 0.707
-  vn ...
-  ...
-  # Polygonal face element
-  f v1 v2 v3
-  f ...
-  ...
-  # Group
-  g Group1
-  ...
-  # Object
-  o Object1
-  ```
-
-In this project you only need to implement support for vertex and face lists. Everything else is optional.
-
-### Affine transformations
-
-This section describes basic affine transformations (translation, rotation, scaling) in the plane, using two-dimensional objects (images) as an example. Similarly, affine transformations can also be used for three-dimensional space.
-
-An affine transformation is a mapping in a plane or in space onto itself, in which parallel lines become parallel lines, intersecting lines become intersecting lines, and oblique lines become oblique lines.
-A transformation in a plane is called affine if it is mutually unambiguous and the image of any line is a line. A transformation (mapping) is called mutually unambiguous (bijective) if it transforms different points into different points, and each point is transformed into a point.
-
-In algebraic terms, an affine transformation is a transformation of the form _f(x) = M x + v_, where _M_ is some invertible matrix and _v_ is some value.
-
-Properties of affine transformations:
-- A composition of affine transformations is an affine transformation too
-- The inverse of an affine transformation is an affine transformation too
-- The ratio of areas is conserved.
-- The ratio of lengths of line segments is conserved.
-
-#### Translation
-
-Translation matrix in uniform two-dimensional coordinates
-```
-1 0 a
-0 1 b
-0 0 1
-```
-
-where _a_ and _b_ are the values on _x_ and _y_ by which the source point should be moved. Thus, to move a point, you must multiply the translation matrix by it.
-```
-x1     1 0 a     x 
-y1  =  0 1 b    y
-1      0 0 1     1
-```
-
-where _x_ and _y_ are the original coordinates of the point and _x1_ and _y1_ are the resulting coordinates of the new point after translation.
-
-#### Rotation
-
-Clockwise rotation matrix in uniform two-dimensional coordinates
-```
-cos(a)  sin(a) 0
--sin(a) cos(a) 0
-0       0      1
-```
-
-where _a_ is the rotation angle in two-dimensional space. To get the coordinates of the new point it is necessary to multiply the rotation matrix by the original point in the same way as the translation matrix
-```
-x1     cos(a)  sin(a) 0     x 
-y1  =  -sin(a) cos(a) 0    y
-1      0       0      1     1
-```
-
-#### Scaling
-
-Scaling matrix in uniform two-dimensional coordinates
-```
-a 0 0
-0 b 0
-0 0 1
-```
-
-where _a_ and _b_ are the scaling factors for the OX and OY axes respectively. Obtaining coordinates of a new point is similar to the cases described above.
-
-
-## Chapter III
-
-## Part 1. 3DViewer
-
-You need to develop a program to visualise 3D wireframe models:
-
-- The program must be developed in C language of C11 standard using gcc compiler. You can use any additional QT libraries and modules;
-- The program code must be located in the src folder;
-- The program must be built with Makefile which contains standard set of targets for GNU-programs: all, install, uninstall, clean, dvi, dist, tests, gcov. Installation directory could be arbitrary, except the building one;
-- The program must be developed according to the principles of structured programming;
-- When writing code it is necessary to follow the Google style;
-- Prepare full coverage of modules related to model loading and affine transformations with unit-tests;
-- There should be only one model on the screen at a time;
-- The program must provide the ability to:
-    - Load a wireframe model from an obj file (vertices and surfaces list support only);
-    - Translate the model by a given distance in relation to the X, Y, Z axes;
-    - Rotate the model by a given angle relative to its X, Y, Z axes;
-    - Scale the model by a given value;
-- GUI implementation, based on any GUI library with API for C89/C99/C11 <br/>
-  * For Linix: GTK+, CEF, Qt<br/>
-  * For Mac: GTK+, Nuklear, raygui, microui, libagar, libui, IUP, LCUI, CEF, Qt;
-- The graphical user interface must contain:
-    - A button to select the model file and a field to output its name;
-    - A visualisation area for the wireframe model;
-    - Button/buttons and input fields for translating the model;
-    - Button/buttons and input fields for rotating the model;
-    - Button/buttons and input fields for scaling the model;
-    - Information about the uploaded model - file name, number of vertices and edges;
-- The program must correctly process and allow user to view models with details up to 100, 1000, 10,000, 100,000, 1,000,000  vertices without freezing (a freeze is an interface inactivity of more than 0.5 seconds).
-
-*Note:* **Don't upload heavy files (>10 mb) to git.**
-
-## Part 2. Bonus. Settings
-
-- The program must allow customizing the type of projection (parallel and central);
-- The program must allow setting up the type (solid, dashed), color and thickness of the edges, display method (none, circle, square), color and size of the vertices;
-- The program must allow choosing the background color;
-- Settings must be saved between program restarts.
-
-## Part 3. Bonus. Record
-
-- The program must allow saving the captured (rendered) images as bmp and jpeg files;
-- The program must allow recording small screencasts by a special button - the current custom affine transformation of the loaded object into gif-animation (640x480, 10fps, 5s).
-
-
-💡 [Tap here](https://forms.yandex.ru/cloud/641815b8e010db24ff2687a4/) **to leave your feedback on the project.** Product Team really tries to make your educational experience better.
+Приложение 3D Viewer предоставляет пользователям удобный интерфейс для загрузки и визуализации 3D моделей. Благодаря возможности изменять различные параметры и сохранять настройки, приложение подходит как для базового, так и для более продвинутого использования.
