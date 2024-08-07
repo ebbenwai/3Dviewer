@@ -6,8 +6,6 @@
 
 ![3DViewer](misc/images/3dviewer.png)
 
-![3DViewer](/home/keylux/Pictures/Screenshots)
-
 
 
 # Документация по коду и приложению 3D Viewer
