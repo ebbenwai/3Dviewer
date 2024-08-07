@@ -4,7 +4,6 @@
 
 ## Preamble
 
-![3DViewer](misc/images/3dviewer.png)
 
 ![Screenshot from 2024-08-07 15-03-59](https://github.com/user-attachments/assets/07e635c1-e79e-4774-aeb5-2b4b1e905975)
 
